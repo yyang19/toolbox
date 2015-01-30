@@ -4,6 +4,7 @@
 #include <math.h>
 #include <assert.h>
 #include "local.h"
+#include "random.h"
 
 static void
 _help( void ){
@@ -12,29 +13,6 @@ _help( void ){
 
     printf("[1] Generate a random number in range [min,max).\n");
     printf("\t  args: [1]tool_id [2]min [3] max  (e.g., ./toolbox 1 0 100) \n");
-}
-
-/* * _random_in_range
- * Description: generate a random number in [min,max)
- * @min : lower bound
- * @max : upper bound
- * return : a random number in [min,max)
- */
-static int 
-_random_in_range (unsigned int min, unsigned int max){
-    
-    int base_random = rand(); /* in [0, RAND_MAX] */
-    
-    if (RAND_MAX == base_random) return _random_in_range(min, max);
-    
-    int range       = max - min,
-    remainder   = RAND_MAX % range,
-    bucket      = RAND_MAX / range;
-    
-    if (base_random < RAND_MAX - remainder) 
-       return min + base_random/bucket;
-    else 
-       return _random_in_range (min, max);
 }
 
 int 
@@ -60,7 +38,7 @@ main( int argc, char *argv[] ){
 
             min = atoi(argv[2]);
             max = atoi(argv[3]);
-            var =  _random_in_range (min, max);
+            var =  random_in_range (min, max);
             printf("Result variable: %d\n", var);
             break;
         default:
