@@ -1,0 +1,3 @@
+An implementation of fast bitset.
+
+One interesting feature included -- the leading LSB/MSB can be fast peeked with O(n/32).

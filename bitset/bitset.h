@@ -34,14 +34,15 @@
 typedef uint32_t		bitcell_t;
 typedef bitcell_t		bitset_t[];
 
-INLINE void bitset_zeros( bitset_t set, int n );
-INLINE void bitset_ones( bitset_t set, int n );
-INLINE bool bitset_is_empty( bitset_t a, int n );
-INLINE bool bitset_is_full( bitset_t set, int n );
-INLINE int bitset_peek( bitset_t set, int n );
+void bitset_zeros( bitset_t set, int n );
+void bitset_ones( bitset_t set, int n );
+bool bitset_is_empty( bitset_t a, int n );
+bool bitset_is_full( bitset_t set, int n );
+int bitset_peek( bitset_t set, int n );
 
-INLINE void bitset_set( bitset_t set, int i );
-INLINE void bitset_clear( bitset_t set, int i );
-INLINE bool bitset_is_member( bitset_t set,  int i );
+void bitset_set( bitset_t set, int i );
+void bitset_clear( bitset_t set, int i );
+bool bitset_is_member( bitset_t set,  int i );
 
+int bitset_peek_mask( bitset_t set, int n, int *mask );
 #endif

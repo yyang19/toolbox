@@ -1,15 +1,19 @@
 #include <stdio.h>
 #include "bitset.h"
 
+#define R2(n)     n,     n + 2*64,     n + 1*64,     n + 3*64
+#define R4(n) R2(n), R2(n + 2*16), R2(n + 1*16), R2(n + 3*16)
+#define R6(n) R4(n), R4(n + 2*4 ), R4(n + 1*4 ), R4(n + 3*4 )
+static const unsigned char BitReverseTable256[256] = 
+{
+        R6(0), R6(2), R6(1), R6(3)
+};
+
 static const int
 _deBruijn[32] = {
     0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 
     31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9
 	};
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 INLINE void
 bitset_zeros( bitset_t set, int n ) {
@@ -109,6 +113,50 @@ bitcell_peek( bitcell_t cell ) {
 	return (_deBruijn[ (((cell & -cell) * 0x077CB531UL) & 0xffffffff) >> 27]);
 	}
 
+int
+_bitcell_peek_mask( bitcell_t cell, int mask ) {
+
+    bitcell_t c = cell & mask ;
+
+	return (_deBruijn[ (((c & -c) * 0x077CB531UL) & 0xffffffff) >> 27]);
+	}
+
+int
+_bitset_first_nonzero_mask( bitset_t a, int n, int *mask ) {
+	int		i = 0;
+	
+	UNROLL( n, if( a[i] & mask[i] ) return i; i ++; );
+	return -1;
+	}
+
+int
+bitset_peek_mask( bitset_t set, int n, int *mask ) {
+	
+    int index;
+
+    index = _bitset_first_nonzero_mask( set, n, mask );
+
+	bitcell_t	cell;
+	
+	if( index >= 0 ) {
+		cell = set[index];
+		return (index << CLOG2_PER_CELL) | _bitcell_peek_mask( cell, mask[index] );
+		}
+	return -1;
+	}
+
+
+int 
+bitset_reverse_word32( int v ){
+    int c;
+
+    c = (BitReverseTable256[v & 0xff] << 24) | 
+        (BitReverseTable256[(v >> 8) & 0xff] << 16) | 
+        (BitReverseTable256[(v >> 16) & 0xff] << 8) |
+        (BitReverseTable256[(v >> 24) & 0xff]);
+
+    return c;
+}
 INLINE bitcell_t
 bitcell_pop( bitcell_t cell ) {
 	cell &= cell - 1;
@@ -172,9 +220,5 @@ bitset_dump( bitset_t set, int n ) {
 		printf( "%d ", (i << CLOG2_PER_CELL) + j );
 		}
 	}
-	
-#ifdef __cplusplus
-}
-#endif
 	
 	
