@@ -1,7 +1,7 @@
 /********************************************************
  * File:       cuckoo.c
  * AUthor:     Yue Yang (yueyang2010@gmail.com)
- * Description: key generic cuckoo hash table
+ * Description: A generic cuckoo hash table
  *******************************************************/
 #include <string.h>
 #include <stdlib.h>
@@ -260,8 +260,11 @@ cuckooDelete( cuckoo_t *ct, int key )
 
 void
 cuckooFlush( cuckoo_t* ct ){
-    //flush elements in the table
     
+    //add customized flush code below
+    // flush()....
+
+    // Reset the table
     cuckooReset( ct );
 
     return;
@@ -271,15 +274,19 @@ void
 cuckooDump( cuckoo_t *ct )
 {
     int i;
+    int count = 0;
 
     printf("Cuckoo hash table dump\n");
 
     for(i=0; i<ct->nElem; ++i){
         if(ct->buckets[i].key != CK_HASH_INVALID_KEY){
+            ++count;
             printf("elem #%d: key <%d>\n", i, ct->buckets[i].key);       
         }
     }
 
+    printf( "Load factor %.2f\n", (double)count/ct->nElem );
+    
     return;
 }
 
