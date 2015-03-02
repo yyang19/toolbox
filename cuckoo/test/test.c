@@ -33,6 +33,7 @@ main( int argc, char *argv[] ){
 
     assert( ck_table );
 
+<<<<<<< HEAD
     for( key=0; key<128; key++ ){
         avail = cuckooPeek( ck_table, key, 0, -1, -1 );
 
@@ -43,6 +44,16 @@ main( int argc, char *argv[] ){
         }
         else
             cuckooFlush( ck_table );
+=======
+    for( key=0; key<8192; key++ ){
+        avail = cuckooPeek( ck_table, key, 0, -1, -1 );
+
+        if( !avail )
+            cuckooFlush( ck_table );
+        kv.key = key;
+        kv.value = &key;
+        result = cuckooInsert( ck_table, kv, 0, -1, -1 ); 
+>>>>>>> c2a8f4ee7cd204bf71921d5837db026cbaec1cb0
     }
     
     cuckooDump( ck_table );

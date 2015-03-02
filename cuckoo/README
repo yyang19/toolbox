@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 A generic cuckoo hash table
+=======
+A generic in-memory cuckoo hash table.
+>>>>>>> c2a8f4ee7cd204bf71921d5837db026cbaec1cb0
