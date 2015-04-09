@@ -5,7 +5,8 @@ CPP_FILES := $(wildcard *.cpp)
 C_FILES := $(wildcard *.c)
 OBJS := $(addprefix obj/,$(notdir $(C_FILES:.c=.o)))
 
-BASE_PATH=/home/yyang/workspace/github/toolbox
+BASE_PATH=/local/yyang/workspace/github/toolbox
+#BASE_PATH=/home/yyang/workspace/github/toolbox
 BASE_LIB_PATH=$(BASE_PATH)/lib
 BASE_HEADER_PATH=$(BASE_PATH)/include
 

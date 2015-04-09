@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-
-
+#include <assert.h>
 
 
 static void 
@@ -109,13 +108,18 @@ _quicksort_non_recur0( int *arr, int first, int last )
 
 static void
 _quicksort_non_recur1( int *arr, int first, int last )
-    
+{    
     #define MAX_LEVELS (1000)
 
-    int  piv, beg[MAX_LEVELS], end[MAX_LEVELS], i=0, L, R ;
+    int piv;
+    int beg[MAX_LEVELS];
+    int end[MAX_LEVELS];
+    int i;
+    int L, R ;
 
     beg[0]=0; 
     end[0]=last+1;
+    i=0;
 
     while (i>=0) {
         L=beg[i]; R=end[i]-1;

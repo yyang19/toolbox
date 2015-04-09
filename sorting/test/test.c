@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include <random.h>
-#include <sort.h>
+#include "sort.h"
 
 #define MAX (8192)
 
@@ -66,6 +66,7 @@ main( int argc, char *argv[] ){
     int result=0;
     int keys[MAX];
     int copy[MAX];
+    node_t *a = NULL;
     
     if( 0 )
         _help();
@@ -80,5 +81,21 @@ main( int argc, char *argv[] ){
 
     reset_array( &keys[0], MAX );
     reset_array( &copy[0], MAX );
+    
+    printf("Test quicksort on singly list\n");
+    
+    quicksort_ll_push(&a, 5);
+    quicksort_ll_push(&a, 20);
+    quicksort_ll_push(&a, 4);
+    quicksort_ll_push(&a, 3);
+    quicksort_ll_push(&a, 30);
+
+    printf( "Linked List before sorting \n" );;
+    quicksort_ll_dump(a);
+
+    quicksort_ll(&a);
+
+    printf( "Linked List after sorting \n" );
+    quicksort_ll_dump(a);
     return result;
 }
