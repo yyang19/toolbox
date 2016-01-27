@@ -20,3 +20,27 @@ roundUpPowerOf2(int v){
     return v;
 }
 
+int
+factorial( int n ){
+
+   return n==0 ? 1 : n * factorial(n-1) ;
+}
+
+long 
+comb( int n, int k ){
+   
+   long value;
+   
+   if( n==0 )
+      return -1;
+   
+   value = factorial(n) / (factorial(k) * factorial(n-k));
+   return value;
+}
+
+long
+perm( int n, int k ){
+   long value;
+   value = factorial(n) / factorial(n-k) ;
+   return value;
+}

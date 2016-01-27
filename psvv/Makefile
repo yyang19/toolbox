@@ -1,34 +1,39 @@
 # Makefile template for shared library
 
-LIB_NAME=sort
+LIB_NAME=psvv
 DIST=debug
-
 #  
 #  CC = gcc # C compiler
-CFLAGS = -fPIC -Wall -Wextra -O2 -pg # C flags
+
+ifeq ($(strip $(DIST)),debug)
+	CFLAGS = -fPIC -Wall -Wextra -pg -g -lgsl -lgslcblas -lm # C flags
+else
+	CFLAGS = -fPIC -Wall -Wextra -O2  -lgsl -lgslcblas -lm # C flags
+endif
+
 #LDFLAGS = -shared  # linking flags
 LDFLAGS = -shared  # linking flags
 RM = rm -f  # rm command
-#TARGET_LIB = libsort.so # target lib
-TARGET_LIB = libsort.so # target lib
+#TARGET_LIB = libpsvv.so # target lib
+TARGET_LIB = lib${LIB_NAME}.so # target lib
 
-BASE_PATH=/home/yyang/workspace/github/toolbox
-#BASE_PATH=/local/yyang/workspace/github/toolbox
+BASE_PATH=..
 BASE_LIB_PATH=$(BASE_PATH)/lib
 BASE_HEADER_PATH=$(BASE_PATH)/include
 TARGET_LIB_PATH=$(BASE_PATH)/lib
 
-SRCS = sort.c quicksort_ll.c # source files
+SRCS = psvv.c # source files
 OBJS = $(SRCS:.c=.o)
 
 CFLAGS += -I${BASE_HEADER_PATH}
-LDFLAGS += -L${BASE_LIB_PATH} -lrandom
-	 
+LDFLAGS += -L${BASE_LIB_PATH} 
+LDLIBS=-lmath
+
 .PHONY: all
 all: ${TARGET_LIB}
 	 
 $(TARGET_LIB): $(OBJS)
-	$(CC) ${LDFLAGS} -o $@ $^
+	$(CC) ${LDFLAGS} -o $@ $^ $(LDLIBS)
 		 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@

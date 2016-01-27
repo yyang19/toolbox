@@ -28,5 +28,9 @@ main( int argc, char *argv[] ){
         printf("var = %d, next power of 2: %d\n" ,var,value);
     }
 
+    result = comb( 10 ,2 );
+
+    printf("result %d\n", result);
+
     return result;
 }

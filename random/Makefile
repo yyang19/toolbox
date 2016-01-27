@@ -6,8 +6,8 @@ LDFLAGS = -shared  # linking flags
 RM = rm -f  # rm command
 TARGET_LIB = librandom.so # target lib
 
-#BASE_PATH=/home/yyang/workspace/github/toolbox
-BASE_PATH=/local/yyang/workspace/github/toolbox
+BASE_PATH=/home/yyang/workspace/github/toolbox
+#BASE_PATH=/local/yyang/workspace/github/toolbox
 TARGET_LIB_PATH=$(BASE_PATH)/lib
 
 SRCS = random.c # source files
