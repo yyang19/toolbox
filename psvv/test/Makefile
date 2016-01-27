@@ -13,7 +13,7 @@ BASE_HEADER_PATH=$(BASE_PATH)/include
 CPPFLAGS=-g -O0 --coverage -Wall
 CFLAGS=-g -pg -O0 --coverage -Wall -I${BASE_HEADER_PATH}
 LDFLAGS=-g -pg -O0 --coverage -L${BASE_LIB_PATH} -Wl,-rpath=${BASE_LIB_PATH} 
-LDLIBS=-lmath -lpsvv -lgsl -lgslcblas -lm
+LDLIBS=-lmath -lpsvv -lm
 
 all: main
 
