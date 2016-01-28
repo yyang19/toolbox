@@ -52,13 +52,16 @@ psvv_init( int n ){
       for( j=0; j<=n; j++ )
          
          if( i==0 ){
-            p->comb[i][j] = -1;
+            if( j==0 )
+                p->comb[i][j] = 1;
+            else
+                p->comb[i][j] = INVALID_CST;
             continue;
          }
          else if( j<=i )
             p->comb[i][j] = comb( i, j );
          else
-            p->comb[i][j] = -1;
+            p->comb[i][j] = INVALID_CST;
    }
    
    for( i=0; i<=n; i++ ){
@@ -162,4 +165,20 @@ done:
    return value;
 }
 
+int
+psvv_cst2( psvv_t *p, int t, int m, int n ){
+
+    int value;
+
+    if( t==n && m==0 )
+        value = 1;
+    else if( n-m<=t && t<=n ){
+        value = ( (t+m+n)%2 == 0 ) ? 1 : -1;
+        value *= p->comb[m-1][t+m-n];
+    }
+    else 
+        value = 0;
+
+    return value;
+}
 

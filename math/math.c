@@ -20,7 +20,7 @@ roundUpPowerOf2(int v){
     return v;
 }
 
-int
+unsigned long long 
 factorial( int n ){
 
    return n==0 ? 1 : n * factorial(n-1) ;

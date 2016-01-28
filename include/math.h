@@ -17,7 +17,7 @@
 
 int PowerOfTwo(unsigned val);
 int roundUpPowerOf2(int);
-int factorial( int );
+unsigned long long factorial( int );
 long comb( int, int );
 long perm( int, int );
 
