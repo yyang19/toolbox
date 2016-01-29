@@ -1,11 +1,11 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<stdbool.h>
-#include<assert.h>
 #include<math.h>
+#include<assert.h>
 #include "psvv.h"
 
-#define INVALID_CST ( (int)~0 )
+#define INVALID_CST ( (long double)~0 )
 
 psvv_t *
 psvv_init( int n ){
@@ -21,28 +21,28 @@ psvv_init( int n ){
 
    p->n = n;
 
-   p->comb = (int **) malloc ( sizeof(int *) * (p->n+1) ); 
+   p->comb = (long double **) malloc ( sizeof(long double *) * (p->n+1) ); 
 
    if( !p->comb )
       goto comb_p_fail;
 
    for( i=0; i<=p->n; i++ ){
-      p->comb[i] = (int *) malloc ( sizeof(int) * (p->n+1) ); 
+      p->comb[i] = (long double *) malloc ( sizeof(long double) * (p->n+1) ); 
       if( !p->comb[i] )
          goto comb_i_fail;
    }
 
-   p->cst = (int ***) malloc (sizeof(int **) * (p->n+1) );
+   p->cst = (long double ***) malloc (sizeof(long double **) * (p->n+1) );
 
    if( !p->cst )
        goto cst_fail;
 
    for( i=0; i<=n; i++ ){
-      p->cst[i] = (int **) malloc ( sizeof(int*) * (p->n+1) ); 
+      p->cst[i] = (long double **) malloc ( sizeof(long double*) * (p->n+1) ); 
       if( !p->cst[i] )
          goto cst_i_fail;
       for( j=0; j<=n; j++ ){
-          p->cst[i][j] = (int *) malloc ( sizeof(int) * (p->n+1) ); 
+          p->cst[i][j] = (long double *) malloc ( sizeof(long double) * (p->n+1) ); 
           if( !p->cst[i][j] )
               goto cst_j_fail;
       }
@@ -55,13 +55,13 @@ psvv_init( int n ){
             if( j==0 )
                 p->comb[i][j] = 1;
             else
-                p->comb[i][j] = INVALID_CST;
+                p->comb[i][j] = -1;
             continue;
          }
          else if( j<=i )
             p->comb[i][j] = comb( i, j );
          else
-            p->comb[i][j] = INVALID_CST;
+            p->comb[i][j] = -1;
    }
    
    for( i=0; i<=n; i++ ){
@@ -109,12 +109,13 @@ psvv_destroy( psvv_t *p ){
    free(p);
 }
 
-int
+long double
 psvv_cst( psvv_t *p, int t, int m, int n ){
 
-   int sum;
+   long double sum;
    int j;
-   int value;
+   long double value;
+   long double tmp;
 
    if( t>n || m>n ){
       printf("Invalid input\n");
@@ -155,8 +156,10 @@ psvv_cst( psvv_t *p, int t, int m, int n ){
 
    sum = 0;
 
-   for( j=0; j<=n-2; j++ )
-      sum += p->comb[n-1][j] * psvv_cst(p,t-1,j,n-1);
+   for( j=0; j<=n-2; j++ ){
+      tmp = ((long double) p->comb[n-1][j]) * psvv_cst(p,t-1,j,n-1);
+      sum += tmp;
+   }
 
    value = 1-sum;
 
@@ -165,10 +168,29 @@ done:
    return value;
 }
 
-int
+void
+cst_dump( psvv_t *p, int n, int t )
+{
+   int j;
+
+   int tmp;
+   long tmp_l;
+   long double tmp_ld;
+   long double sum = 0;
+   
+   for( j=0; j<=n-2; j++ ){
+      tmp = p->comb[n-1][j] * p->cst[t-1][j][n-1];
+      tmp_l = ((long) p->comb[n-1][j]) * p->cst[t-1][j][n-1];
+      tmp_ld = ((long double) p->comb[n-1][j]) * p->cst[t-1][j][n-1];
+      sum += tmp_ld;
+      printf( "%d, %ld, %lld, sum=%ld\n", tmp, tmp_l, tmp_ld, sum );
+   }
+}
+
+long
 psvv_cst2( psvv_t *p, int t, int m, int n ){
 
-    int value;
+    long value;
 
     if( t==n && m==0 )
         value = 1;

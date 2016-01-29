@@ -3,12 +3,12 @@
 
 typedef struct{
    int n;
-   int **comb;
-   int ***cst;
+   long double **comb;
+   long double ***cst;
 }psvv_t;
 
 psvv_t *psvv_init( int );
 void psvv_destroy( psvv_t *);
-int psvv_cst( psvv_t *, int, int, int );
-int psvv_cst2( psvv_t *, int, int, int );
+long double psvv_cst( psvv_t *, int, int, int );
+long psvv_cst2( psvv_t *, int, int, int );
 #endif

@@ -6,7 +6,9 @@
 int
 main(){
 
-   int n, m, t, c1, c2, np;
+   int n, m, t, np;
+   long double c1;
+   long c2;
    psvv_t *psvv;
 
    printf("Enter np : ");
@@ -24,10 +26,10 @@ main(){
            for( t=0; t<n; t++ ){
               c1 = psvv_cst( psvv, t, m , n ); 
               c2 = psvv_cst2( psvv, t, m , n ); 
-              printf("t=%d, m=%d, n=%d, c1=%d, c2=%d\n", t, m, n, c1, c2);
+              printf("t=%d, m=%d, n=%d, c1=%ld, c2=%ld\n", t, m, n, (long)c1, c2);
               if( c1 != c2 ){
                   printf("Discrepency found!\n");
-                  //return -1;
+                  return -1;
               }
            }
 

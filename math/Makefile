@@ -6,7 +6,7 @@ DIST=debug
 #  CC = gcc # C compiler
 
 ifeq ($(strip $(DIST)),debug)
-	CFLAGS = -fPIC -Wall -Wextra -pg -g # C flags
+      CFLAGS = -fPIC -Wall -Wextra -pg -g -lm # C flags
 else
 	CFLAGS = -fPIC -Wall -Wextra -O2  # C flags
 endif
@@ -26,7 +26,8 @@ SRCS = math.c # source files
 OBJS = $(SRCS:.c=.o)
 
 CFLAGS += -I${BASE_HEADER_PATH}
-LDFLAGS += -L${BASE_LIB_PATH}
+LDFLAGS += -L${BASE_LIB_PATH} 
+LDLIBS=-lmath -lpsvv -lm
 	 
 .PHONY: all
 all: ${TARGET_LIB}
@@ -36,7 +37,7 @@ $(TARGET_LIB): $(OBJS)
 		 
 $(SRCS:.c=.d):%.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@
-			 
+
 include $(SRCS:.c=.d)
 	 
 .PHONY: clean install
