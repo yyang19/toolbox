@@ -2,6 +2,7 @@ from itertools import chain, combinations
 
 import ctypes
 from ctypes import cdll
+import numpy as np
 
 cstlib=cdll.LoadLibrary('/home/yyang/workspace/github/toolbox/lib/libpsvv.so')
 
@@ -15,29 +16,55 @@ class Cst(object):
         def __del__(self):
                 cstlib.psvv_destroy(self.obj)
 
+        def P_sum( self, s ):
+            return sum(s)
 
+        def P_hit( self, e, t, s, c ):
+            if e not in s:
+                print "element ", e, "not in set", s
+                return 0
+            elif t==0:
+                return 0
+            elif t==len(s):
+                return 1
+            else:
+                s_i = set([e])
+                s_diff = s-s_i
+                sum=0
+                s_len = len(s)
+                for z in chain.from_iterable( combinations(s_diff,r) for r in range(len(s_diff)+1)):
+                    sum += c.get( t, len(z), s_len ) * e / (self.P_sum(set(z)|s_i)) 
+                
+                return sum
 
-def P_sum( s ):
-    return sum(s)
+        def P_dev( self, e, t, s, c ):
+            if e not in s:
+                print "element ", e, "not in set", s
+                return 0
+            elif t==0:
+                return 0
+            elif t==len(s):
+                return 1
+            else:
+                s_i = set([e])
+                s_diff = s-s_i
+                s_len = len(s)
+                sum=e/self.P_sum(s)
+                for item in s_diff:
+                    sum += item*self.P_dev(e,t-1,s-set([item]),c)/self.P_sum(s)
+                    
+                return sum
 
-def P_hit( i, t, s ):
-    if i>= len(s):
-        print "Incorrect element index ", i, "set length ", len(s)
-        return -1
-    else:
-        s_i = set([0.2])
-        s_diff = s-s_i
-        print P_sum(s_diff)
-        for z in chain.from_iterable( combinations(s_diff,r) for r in range(len(s_diff)+1)):
-	    print len(z),z
+# Randomly generate a game set
+N = 9
+L_prob = np.random.random((N,))
+L_prob /= sum(L_prob)
+S_prob = set(L_prob)
+c=Cst(N)
 
-
-n=4
-c=Cst(n)
-
-S_prob=set([0.1,0.2,0.3,0.4])
-
-print P_hit(2,3,S_prob)
-
-#result = c.get(t,m,n)
+for e in S_prob:
+    for X in range(1,len(S_prob)+1):
+        p1 = c.P_hit( e, X, S_prob, c )
+        p2 = c.P_dev( e, X, S_prob, c )
+        print "e=",e, "X=",X, "p1=",p1, "p2=", p2
 #print "c=cst(",t,",",m,",",n,")=",result
