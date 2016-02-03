@@ -5,6 +5,7 @@ RM=rm -rf
 CPP_FILES := $(wildcard *.cpp)
 C_FILES := $(wildcard *.c)
 OBJS := $(addprefix obj/,$(notdir $(C_FILES:.c=.o)))
+TMPS := gmon.out
 
 BASE_PATH=../..
 BASE_LIB_PATH=$(BASE_PATH)/lib
@@ -23,7 +24,7 @@ main: $(OBJS)
 obj/%.o: %.c
 	$(CC) -c $(CFLAGS) -o $@ $<
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(OBJS)
 
 dist-clean: clean
-	$(RM) ${BINARY} out obj/*
+	$(RM) ${BINARY} $(TMPS) out obj/*

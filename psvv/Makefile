@@ -1,6 +1,6 @@
 # Makefile template for shared library
 
-LIB_NAME=psvv
+LIB_NAME=psvv_cst
 DIST=debug
 #  
 #  CC = gcc # C compiler
@@ -14,7 +14,7 @@ endif
 #LDFLAGS = -shared  # linking flags
 LDFLAGS = -shared  # linking flags
 RM = rm -f  # rm command
-#TARGET_LIB = libpsvv.so # target lib
+#TARGET_LIB = libpsvv_cst.so # target lib
 TARGET_LIB = lib${LIB_NAME}.so # target lib
 
 BASE_PATH=..
@@ -22,7 +22,7 @@ BASE_LIB_PATH=$(BASE_PATH)/lib
 BASE_HEADER_PATH=$(BASE_PATH)/include
 TARGET_LIB_PATH=$(BASE_PATH)/lib
 
-SRCS = psvv.c # source files
+SRCS = psvv_cst.c # source files
 OBJS = $(SRCS:.c=.o)
 
 CFLAGS += -I${BASE_HEADER_PATH}
