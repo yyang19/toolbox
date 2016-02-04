@@ -14,5 +14,5 @@ class Cst(object):
 	 	return cstlib.psvv_cst_get(self.obj,t,m,n)
 
         def __del__(self):
-                cstlib.psvv_cst_destroy(self.obj)
-
+            cstlib.psvv_cst_destroy(self.obj)
+ 

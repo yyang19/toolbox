@@ -3,6 +3,7 @@ from itertools import chain, combinations
 import numpy as np
 from classes.container import Container
 from zipfgen import ZipfGenerator
+import cProfile
 
 class psvv(object):
    def __init__(self,N,B,arr_p):
@@ -25,20 +26,22 @@ class psvv(object):
       for L_X in set(combinations(S_diff, self.B-1)):
           S_X=set(L_X)
           c_psvv = self.c.psvv( S_X|S_e, e, X )
-          p_sum += c_psvv
+          p_sum += ( c_psvv * sum(S_X)/(1-e) )
 
       result = p_sum/len(set(combinations(S_diff, self.B-1)))
       return result
 
-N=10
+N=30
 B=6
-X=3
+X=4
 
 zg=ZipfGenerator(N,0.6)
-zipf_array=zg.randZipf()
-print zipf_array
+za=zg.randZipf()
+za = [float(i)/sum(za) for i in za]
+print za, sum(za)
 
-psvv_obj=psvv(N,B,zipf_array)
-p=psvv_obj.get( zipf_array[0], X)
+psvv_obj=psvv(N,B,za)
+p=psvv_obj.get( za[0], X)
+#cProfile.run('psvv_obj.get( za[0], X)')
 print p
 
