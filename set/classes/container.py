@@ -6,10 +6,10 @@ from cst import Cst
 class Container(object):
 	def __init__(self, B):
             self.cst = Cst(B)
-            return;
+            return
 
         def __del__(self):
-            return;
+            return
         
         def P_sum( self, s ):
             return sum(s)
