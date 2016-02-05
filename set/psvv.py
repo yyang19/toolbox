@@ -31,8 +31,8 @@ class psvv(object):
       result = p_sum/len(set(combinations(S_diff, self.B-1)))
       return result
 
-N=30
-B=6
+N=14
+B=8
 X=4
 
 zg=ZipfGenerator(N,0.6)
@@ -41,7 +41,7 @@ za = [float(i)/sum(za) for i in za]
 print za, sum(za)
 
 psvv_obj=psvv(N,B,za)
-p=psvv_obj.get( za[0], X)
-#cProfile.run('psvv_obj.get( za[0], X)')
-print p
+#p=psvv_obj.get( za[0], X)
+cProfile.run('psvv_obj.get( za[0], X)')
+#print p
 

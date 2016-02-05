@@ -6,9 +6,11 @@ from cst import Cst
 class Container(object):
 	def __init__(self, B):
             self.cst = Cst(B)
+            self.log=open('container.log', 'w+')
             return
 
         def __del__(self):
+            self.log.close()
             return
         
         def P_sum( self, s ):
@@ -53,7 +55,7 @@ class Container(object):
                 ps=self.P_sum(s)
                 sum=e/ps
                 for item in s_diff:
-                    sum += item*self.P_dev(e,t-1,s-set([item]))/ps
+                    sum += item*self.P_hit_rec(e,t-1,s-set([item]))/ps
                     
                 return sum
 
